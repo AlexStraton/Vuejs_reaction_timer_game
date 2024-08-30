@@ -2,13 +2,15 @@
   <h1>Reaction Timer</h1>
   <h2>This game tests your reaction time!</h2>
   <p>Click play and as soon as you see the green block appear, click on it.</p>
-  <button @click="start">Play</button>
+  <Block v-if="isCurrentlyPlaying" :delay="delay" />
+  <button @click="start" :disabled="isCurrentlyPlaying">Play</button>
 </template>
 
 <script>
+import Block from "./components/Block.vue";
 export default {
   name: "App",
-  components: {},
+  components: { Block },
   data() {
     return {
       isCurrentlyPlaying: false,
@@ -19,7 +21,6 @@ export default {
     start() {
       this.isCurrentlyPlaying = true;
       this.delay = 2000 + Math.random() * 5000;
-      console.log(this.delay);
     },
   },
 };
