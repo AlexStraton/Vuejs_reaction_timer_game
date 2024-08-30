@@ -1,5 +1,5 @@
 <template>
-  <div class="block" v-if="showBlock" @click="stopTimer">Click me</div>
+  <div class="block" v-if="showBlock" @click="handleClick">Click me</div>
 </template>
 
 <script>
@@ -10,6 +10,7 @@ export default {
       showBlock: false,
       timer: null,
       reactionTime: 0,
+      showModal: false,
     };
   },
   mounted() {
@@ -27,6 +28,13 @@ export default {
     stopTimer() {
       clearInterval(this.timer);
       this.$emit("endGame", this.reactionTime);
+    },
+    handleShowModalClick() {
+      this.showModal = !this.showModal;
+    },
+    handleClick() {
+      this.stopTimer();
+      this.handleShowModalClick();
     },
   },
 };

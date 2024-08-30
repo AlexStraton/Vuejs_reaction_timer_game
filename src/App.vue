@@ -1,9 +1,13 @@
 <template>
   <h1>Reaction Timer</h1>
   <h2>This game tests your reaction time!</h2>
-  <p>Click play and as soon as you see the green block appear, click on it.</p>
+  <p>Click play. Click on the green block...if you can 👀</p>
   <Block v-if="isCurrentlyPlaying" :delay="delay" @endGame="endGame" />
-  <Results :score="score" :showResults="showResults" />
+  <ResultsModal
+    :score="score"
+    :showResults="showResults"
+    :showModal="showModal"
+    @close="handleModalClose" />
 
   <button
     @click="start"
@@ -15,11 +19,11 @@
 
 <script>
 import Block from "./components/Block.vue";
-import Results from "./components/Results.vue";
+import ResultsModal from "./components/Results.vue";
 
 export default {
   name: "App",
-  components: { Block, Results },
+  components: { Block, ResultsModal },
   props: ["reactionTime"],
   data() {
     return {
@@ -27,6 +31,7 @@ export default {
       delay: null,
       score: null,
       showResults: false,
+      showModal: false,
     };
   },
   methods: {
@@ -34,12 +39,16 @@ export default {
       this.isCurrentlyPlaying = true;
       this.delay = 2000 + Math.random() * 5000;
       this.showResults = false;
+      this.showModal = false;
     },
     endGame(reactionTime) {
       this.score = reactionTime;
-
       this.isCurrentlyPlaying = false;
       this.showResults = true;
+      this.showModal = true;
+    },
+    handleModalClose() {
+      this.showModal = false;
     },
   },
 };
